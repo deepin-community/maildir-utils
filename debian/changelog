@@ -1,5 +1,946 @@
-template-repository (1.0-1) unstable; urgency=medium
+maildir-utils (1.12.9-1) unstable; urgency=medium
 
-  * Initial release
+  * New upstream version 1.12.9
+    - mu
+      + the cleanup phase after indexing is significantly faster now
+    - mu4e
+      + new command `mu4e-analyze-last-query` which shows information about
+        how the server interpreted the last query.
+      + When you ask for bookmarks or maildirs through `mu4e-search-bookmark`
+        or `mu4e-search-maildir`, unread counts are displayed in the (default)
+        completions UI next to the maildir or bookmark.
+      + A (experimental) "transient" menu has been added.
+      + Various Gnus' mailing list commands are now available in the mu4e
+        message view as well.
+      + The mu server uses PCRE-compatible regexps (for addresses), which are
+        not necessarily compatible with Emacs regular expressions. However,
+        mu4e can now automatically translate; this depends on the `pcre2el`
+        package which the user should install when using regular
+        expression-addresses.
+  * d/patches
+    - refresh patches
+    - add patch to fix single-quoted strings in man-page
+    - add patch to escape back-slashes in man-page
+  * d/control
+    - bump Standards-Version to 4.7.2
 
- -- Tsic404 <liuheng@deepin.org>  Sat, 28 Jan 2023 13:46:49 +0800
+ -- Jeremy Sowden <azazel@debian.org>  Mon, 10 Mar 2025 22:07:50 +0000
+
+maildir-utils (1.12.8-1) unstable; urgency=medium
+
+  * New upstream version 1.12.8
+  * d/patches: refresh patches
+  * d/gitlab-ci.yml: rename to salsa-ci.yml
+
+ -- Jeremy Sowden <azazel@debian.org>  Sun, 29 Dec 2024 11:55:27 +0000
+
+maildir-utils (1.12.7-1) unstable; urgency=medium
+
+  * New upstream version 1.12.7
+  * d/patches: refresh patches
+
+ -- Jeremy Sowden <azazel@debian.org>  Sat, 02 Nov 2024 11:58:23 +0000
+
+maildir-utils (1.12.6-1) unstable; urgency=medium
+
+  * New upstream version 1.12.6
+
+ -- Jeremy Sowden <azazel@debian.org>  Sat, 10 Aug 2024 14:03:33 +0100
+
+maildir-utils (1.12.5-2) unstable; urgency=medium
+
+  * Team upload.
+  * Rebuild against dh-elpa 2.1.5.
+    Upload pushed to dgit-repos but not salsa.
+    See <https://lists.debian.org/debian-emacsen/2024/07/msg00077.html>.
+
+ -- Sean Whitton <spwhitton@spwhitton.name>  Thu, 25 Jul 2024 22:42:11 +0900
+
+maildir-utils (1.12.5-1) unstable; urgency=medium
+
+  * New upstream version 1.12.5
+    - Rework message composition; split off parts into mu4e-draft.el. This
+      tries harder to maintain the current buffer as expected
+    - This fixes e.g. emacs-report-bug handling
+    - New hook mu4e-compose-post-hook for tweaking what mu4e does when
+      we're done with a message (after sending, cancelling, ...).
+      By default, it tries to close the frame if needed, and restore
+      the window configuration. See its docstring.
+    - Better handle forwarding of encoded messages
+    - Don't remove non-mu4e completion in composer
+    - Integrate iCalendar support with message-composition
+    - Handle mu4e-sent-messages-behavior correctly when it's a function
+    - Better support NetBSD
+    - Support some file systems that don't put the file type in d_type
+    - Improve documentation
+  * d/patches
+    - remove upstreamed patch
+    - add patch to fix RISC-V test failure (Closes: #1071192)
+
+ -- Jeremy Sowden <azazel@debian.org>  Mon, 03 Jun 2024 22:05:55 +0100
+
+maildir-utils (1.12.4-1) unstable; urgency=medium
+
+  * New upstream version 1.12.4 (closes: #1069104)
+    - query when quitting emacs with unhandled marks in a headers buffer
+    - fix mime-handling
+    - update sent handling (simplifying it)
+    - re-enable a specific database lock; this makes indexing a bit slower,
+      but hopefully avoids some db corruption.
+  * d/patches
+    - refresh patches
+  * d/p/handle-dt_unknown-dentries.patch
+    - add patch to fix reprotest failures
+  * d/p/mu4e-dont-bytecompile
+    - fix autoload generation
+
+ -- Jeremy Sowden <azazel@debian.org>  Fri, 03 May 2024 13:04:09 +0100
+
+maildir-utils (1.12.3-3) unstable; urgency=medium
+
+  [ Jeremy Sowden ]
+  * d/rules
+    - enable 64-bit time_t on i386
+    - use upstream mu4e-pkg.el
+  * d/patches
+    - add patch to fix possible overflow on architectures which do
+      not support 64-bit time_t
+  * d/maildir-utils.docs, d/p/adjust-mu-docdir
+    - move doc's installed in /usr/share/doc/mu
+  * d/TODO
+    - the entries in it are obsolete, so remove it
+
+  [ Xiyue Deng ]
+  * Fix mu4e.elpa path to include all *.el files (Closes: #1068869)
+
+ -- Jeremy Sowden <azazel@debian.org>  Sat, 13 Apr 2024 18:57:16 +0100
+
+maildir-utils (1.12.3-2) unstable; urgency=medium
+
+  * d/control
+    - remove build-dep on libcld2-dev
+
+ -- Jeremy Sowden <azazel@debian.org>  Thu, 11 Apr 2024 14:08:52 +0100
+
+maildir-utils (1.12.3-1) unstable; urgency=medium
+
+  [ Xiyue Deng ]
+  * Add locales-all to Build-Depends which is required by tests
+
+  [ Jeremy Sowden ]
+  * New upstream version 1.12.3 (Closes: #1067809)
+    - Significant speedups in both mu and mu4e
+    - Reworked message composition, closer to its Gnus origins which adds
+      many of its features
+    - Overhauled the query parser; squashing a number of bugs/limitations,
+      incl. dealing with CJK messages
+    - Experimental folding of message threads
+    - Better and faster indexing of HTML messages
+    - Experimental search by (human) language with CLD2
+  * d/control
+    - update my e-mail address
+    - add build-dep on libcld2-0-dev to enable language-search support
+    - bump Standards-Version to 4.7.0
+  * d/copyright
+    - update copyright notice for Dirk-Jan C. Binnema
+    - add missing copyright statements and licences
+  * d/NEWS
+    - add entry for 1.12.3-1 advising that the database needs to be
+      reinitialized because of schema updates
+  * d/patches
+    - delete upstreamed patches
+    - refresh patches
+  * d/rules
+    - fix tabulation in all man-pages containing tables
+    - link against libatomic on armel (Closes: #1068030)
+
+ -- Jeremy Sowden <azazel@debian.org>  Wed, 10 Apr 2024 20:18:09 +0100
+
+maildir-utils (1.10.8-2) unstable; urgency=medium
+
+  * d/patches
+    - add patches to fix unreproducible dates in documentation
+      (Closes: #1056572)
+
+ -- Jeremy Sowden <jeremy@azazel.net>  Wed, 22 Nov 2023 21:02:32 +0000
+
+maildir-utils (1.10.8-1) unstable; urgency=medium
+
+  * New upstream version 1.10.8
+  * d/changelog
+    - remove entry for non-existent 1.8.14-4 release
+  * d/gitlab-ci.yml
+    - enable CI pipeline
+  * d/gbp.conf
+    - dch: add `commit-msg`
+  * d/patches
+    - refresh patches
+
+ -- Jeremy Sowden <jeremy@azazel.net>  Thu, 16 Nov 2023 20:24:41 +0000
+
+maildir-utils (1.10.7-1) unstable; urgency=medium
+
+  * New upstream version 1.10.7
+  * d/.gitignore
+    - ignore packaging artefacts
+    - ignore Emacs artefacts
+  * d/clean
+    - remove entries not relevant to 1.10
+  * d/control
+    - add myself to uploaders
+    - add build-dep on meson
+    - add build-dep on libglib2.0-dev
+    - trim unneeded build-deps
+    - wrap-and-sort
+  * d/elpa-test
+    - disable dh-elpa-test to run upstream test-suite
+  * d/maildir-utils.docs
+    - remove obsolete TODO file
+  * d/maildir-utils.examples
+    - install Guile examples
+  * d/maildir-utils.install
+    - update the path of the Guile extension
+  * d/mu4e.elpa
+    - copy .el files from meson build directory
+  * d/NEWS
+    - fix formatting
+    - add entry advising that the database needs to be reinitialized
+      because of a schema update
+  * d/not-installed
+    - remove obsolete Guile .la file
+  * d/patches
+    - remove obsolete patches
+    - refresh mu4e patches
+    - refresh man-page patch
+    - add patch to use max. compression for info files
+    - add new man-page patch with upstreamed corrections
+    - add DEP-3 metadata to all patches
+    - add patch to fix a couple of typo's
+    - add upstream patch to remove references to mu4e build directory
+  * d/rules
+    - update to use meson build-system
+    - write mu4e-pkg.el to meson build directory
+    - patch mu-cfind.1 to ensure that groff runs tbl
+    - make build verbose unless the `terse` build option is used
+
+ -- Jeremy Sowden <jeremy@azazel.net>  Wed, 08 Nov 2023 21:51:57 +0000
+
+maildir-utils (1.8.14-3) unstable; urgency=medium
+
+  * Team upload
+  * Bug fix: "public shared library shipped in maildir-utils binary
+    package", thanks to Jeremy Sowden (Closes: #1041271).
+
+ -- David Bremner <bremner@debian.org>  Wed, 19 Jul 2023 08:11:03 -0300
+
+maildir-utils (1.8.14-2) unstable; urgency=medium
+
+  * Team upload
+  * Bug fix: "ftbfs with GCC-13", thanks to Matthias Klose (Closes:
+    #1037765). Thanks to Jeremy Sowden for the fix.
+  * Install missing info files (also thanks to Jeremy Sowden)
+
+ -- David Bremner <bremner@debian.org>  Sun, 16 Jul 2023 13:32:26 -0300
+
+maildir-utils (1.8.14-1) unstable; urgency=medium
+
+  * New upstream verion
+
+ -- Martin <debacle@debian.org>  Tue, 07 Feb 2023 22:53:40 +0000
+
+maildir-utils (1.8.13-1) unstable; urgency=medium
+
+  * New upstream version
+
+ -- Martin <debacle@debian.org>  Mon, 23 Jan 2023 00:00:53 +0000
+
+maildir-utils (1.8.10-1) unstable; urgency=medium
+
+  * New upstream version
+
+ -- Martin <debacle@debian.org>  Sat, 08 Oct 2022 14:10:38 +0000
+
+maildir-utils (1.8.7-2) unstable; urgency=medium
+
+  * debian/rules: Both armel and ia64 have guile-3.0-dev, stop passing
+    --disable-guile there (thanks to Adrian Bunk)
+
+ -- Martin <debacle@debian.org>  Mon, 01 Aug 2022 06:51:47 +0000
+
+maildir-utils (1.8.7-1) unstable; urgency=medium
+
+  * New upstream version
+  * Add symlink in mu4e to NEWS.org in mu4e (Closes: #1016134)
+  * Switch to dh_elpa and more modern debian/rules
+
+ -- Martin <debacle@debian.org>  Sun, 31 Jul 2022 17:10:04 +0000
+
+maildir-utils (1.8.6-1) unstable; urgency=medium
+
+  * New upstream version
+
+ -- Martin <debacle@debian.org>  Mon, 18 Jul 2022 18:03:46 +0000
+
+maildir-utils (1.8.5-1) unstable; urgency=medium
+
+  * New upstream version
+
+ -- Martin <debacle@debian.org>  Mon, 11 Jul 2022 20:40:10 +0000
+
+maildir-utils (1.8.3-1) unstable; urgency=medium
+
+  * New upstream version
+
+ -- Martin <debacle@debian.org>  Tue, 05 Jul 2022 06:30:26 +0000
+
+maildir-utils (1.8.2-1) unstable; urgency=medium
+
+  * New upstream version 1.8.2 (Closes: #1013942)
+  * Migrate package to Emacs team on Salsa,
+    thanks to Norbert for maintaining this package over 13 years!
+  * Remove dependencies on "dpkg | install-info" (Closes: #1013830, #1013834)
+  * Refresh patches, remove obsolete fix-mug-build
+
+ -- Martin <debacle@debian.org>  Wed, 29 Jun 2022 19:00:50 +0000
+
+maildir-utils (1.6.10-1) unstable; urgency=medium
+
+  * New upstream version 1.6.10
+
+ -- Norbert Preining <norbert@preining.info>  Sat, 13 Nov 2021 17:24:13 +0900
+
+maildir-utils (1.6.9-1) unstable; urgency=medium
+
+  * New upstream version 1.6.9
+  * Update patch.
+
+ -- Norbert Preining <norbert@preining.info>  Mon, 25 Oct 2021 07:19:56 +0900
+
+maildir-utils (1.6.7-1) unstable; urgency=medium
+
+  * New upstream version 1.6.7
+  * Update patch.
+
+ -- Norbert Preining <norbert@preining.info>  Sun, 17 Oct 2021 21:47:44 +0900
+
+maildir-utils (1.6.6-1) unstable; urgency=medium
+
+  [ Debian Janitor ]
+  * Bump debhelper from old 12 to 13.
+  * Update standards version to 4.5.1, no changes needed.
+  * Remove Section on maildir-utils, Priority on mu4e that duplicate source.
+  * Remove constraints unnecessary since buster
+
+  [ Norbert Preining ]
+  * Update standards version to 4.6.0, no changes needed.
+  * New upstream version 1.6.6
+
+ -- Norbert Preining <norbert@preining.info>  Sun, 05 Sep 2021 18:08:49 +0900
+
+maildir-utils (1.6.5-1) unstable; urgency=medium
+
+  * New upstream version 1.6.5
+
+ -- Norbert Preining <norbert@preining.info>  Fri, 27 Aug 2021 07:49:53 +0900
+
+maildir-utils (1.6.4-1) unstable; urgency=medium
+
+  * New upstream version 1.6.4
+
+ -- Norbert Preining <norbert@preining.info>  Mon, 23 Aug 2021 10:20:03 +0900
+
+maildir-utils (1.6.3-1) unstable; urgency=medium
+
+  * New upstream version 1.6.3
+  * Drop upstream patch.
+
+ -- Norbert Preining <norbert@preining.info>  Mon, 16 Aug 2021 01:09:51 +0900
+
+maildir-utils (1.6.1-1) experimental; urgency=medium
+
+  * New upstream version 1.6.1
+  * Drop upstream patches.
+  * Cherry-pick upstream fix for schemata warning
+  * Add a NEWS entry for database schemata
+
+ -- Norbert Preining <norbert@preining.info>  Sun, 01 Aug 2021 10:04:26 +0900
+
+maildir-utils (1.6.0-1) experimental; urgency=medium
+
+  * New upstream version 1.6.0
+  * Update list of installed files.
+  * Add libreadline-dev to B-D.
+  * Update patches.
+  * Cherry-pick several fixes from upstream.
+
+ -- Norbert Preining <norbert@preining.info>  Fri, 30 Jul 2021 09:24:31 +0900
+
+maildir-utils (1.4.15-1) unstable; urgency=medium
+
+  * New upstream version 1.4.15
+
+ -- Norbert Preining <norbert@preining.info>  Sun, 24 Jan 2021 01:01:10 +0900
+
+maildir-utils (1.4.14-1) unstable; urgency=medium
+
+  * New upstream version 1.4.14
+
+ -- Norbert Preining <norbert@preining.info>  Wed, 06 Jan 2021 12:17:25 +0900
+
+maildir-utils (1.4.13-2) unstable; urgency=medium
+
+  * Use guile-3.0 (Closes: #969674)
+
+ -- Norbert Preining <norbert@preining.info>  Mon, 07 Sep 2020 12:17:45 +0900
+
+maildir-utils (1.4.13-1) unstable; urgency=medium
+
+  * New upstream version 1.4.13
+
+ -- Norbert Preining <norbert@preining.info>  Mon, 10 Aug 2020 08:58:04 +0900
+
+maildir-utils (1.4.12-1) unstable; urgency=medium
+
+  * New upstream version 1.4.12
+
+ -- Norbert Preining <norbert@preining.info>  Sun, 26 Jul 2020 22:30:22 +0900
+
+maildir-utils (1.4.11-1) unstable; urgency=medium
+
+  * New upstream version 1.4.11
+
+ -- Norbert Preining <norbert@preining.info>  Sun, 26 Jul 2020 18:59:49 +0900
+
+maildir-utils (1.4.10-1) unstable; urgency=medium
+
+  * New upstream version 1.4.10
+
+ -- Norbert Preining <norbert@preining.info>  Wed, 10 Jun 2020 13:09:11 +0900
+
+maildir-utils (1.4.9-1) unstable; urgency=medium
+
+  * New upstream version 1.4.9
+
+ -- Norbert Preining <norbert@preining.info>  Sun, 07 Jun 2020 16:47:54 +0900
+
+maildir-utils (1.4.8-1) unstable; urgency=medium
+
+  * New upstream version 1.4.8
+
+ -- Norbert Preining <norbert@preining.info>  Sat, 30 May 2020 20:17:50 +0900
+
+maildir-utils (1.4.7-1) unstable; urgency=medium
+
+  * New upstream version 1.4.7
+
+ -- Norbert Preining <norbert@preining.info>  Mon, 25 May 2020 10:45:46 +0900
+
+maildir-utils (1.4.6-1) unstable; urgency=medium
+
+  * New upstream version 1.4.6
+
+ -- Norbert Preining <norbert@preining.info>  Sun, 17 May 2020 21:06:22 +0900
+
+maildir-utils (1.4.5-1) unstable; urgency=medium
+
+  * New upstream version 1.4.5
+
+ -- Norbert Preining <norbert@preining.info>  Sun, 10 May 2020 18:18:13 +0900
+
+maildir-utils (1.4.4-1) unstable; urgency=medium
+
+  [ Debian Janitor ]
+  * Trim trailing whitespace.
+  * Use secure URI in Homepage field.
+  * Set upstream metadata fields: Bug-Database, Bug-Submit, Repository,
+    Repository-Browse.
+  * Rely on pre-initialized dpkg-architecture variables.
+
+  [ Norbert Preining ]
+  * New upstream version 1.4.4
+
+ -- Norbert Preining <norbert@preining.info>  Mon, 04 May 2020 20:33:45 +0900
+
+maildir-utils (1.4.3-1) unstable; urgency=medium
+
+  * New upstream version 1.4.3
+  * update patches
+
+ -- Norbert Preining <norbert@preining.info>  Wed, 29 Apr 2020 21:31:29 +0900
+
+maildir-utils (1.4.1-1) unstable; urgency=medium
+
+  * New upstream version 1.4.1
+
+ -- Norbert Preining <norbert@preining.info>  Mon, 20 Apr 2020 08:09:30 +0900
+
+maildir-utils (1.4-1) unstable; urgency=medium
+
+  * New upstream version 1.4
+  * update patches
+  * switch to debhelper compat 12
+
+ -- Norbert Preining <norbert@preining.info>  Sat, 18 Apr 2020 21:05:26 +0900
+
+maildir-utils (1.3.9-1) experimental; urgency=medium
+
+  * New upstream version 1.3.9
+  * update patches, import post release fixes from git
+  * update watch file for gh releases/tags
+
+ -- Norbert Preining <norbert@preining.info>  Wed, 26 Feb 2020 10:02:55 +0900
+
+maildir-utils (1.3.6-1) experimental; urgency=medium
+
+  * New upstream version 1.3.6
+  * update patches
+
+ -- Norbert Preining <norbert@preining.info>  Sun, 29 Dec 2019 08:01:37 +0900
+
+maildir-utils (1.3.5-1) experimental; urgency=medium
+
+  * New upstream version 1.3.5
+  * update patches
+
+ -- Norbert Preining <norbert@preining.info>  Thu, 10 Oct 2019 17:35:37 +0900
+
+maildir-utils (1.2.0-2) unstable; urgency=medium
+
+  * Enable guile for armel and ia64 (Closes: #918051)
+  * upload to unstable (source only)
+  * close old gmime3 conversion bug (Closes: #867352)
+
+ -- Norbert Preining <norbert@preining.info>  Mon, 08 Jul 2019 17:21:12 +0900
+
+maildir-utils (1.2.0-1) experimental; urgency=medium
+
+  * New upstream version 1.2.0
+  * update/cleanup patches
+  * update build-deps
+  * work around libguile-2.2-dev installation error breaking autoconf macros
+
+ -- Norbert Preining <norbert@preining.info>  Tue, 16 Apr 2019 15:58:41 +0900
+
+maildir-utils (1.0-7) unstable; urgency=medium
+
+  * update vcs, email, bump standards version
+
+ -- Norbert Preining <norbert@preining.info>  Sun, 03 Mar 2019 08:08:05 +0900
+
+maildir-utils (1.0-6) unstable; urgency=medium
+
+  * drop all of m-u-extra as it needs deprecated webkit1 (Closes: #905695)
+
+ -- Norbert Preining <preining@debian.org>  Wed, 08 Aug 2018 21:18:09 +0900
+
+maildir-utils (1.0-5) unstable; urgency=medium
+
+  * typos in Makefile, next round on armel
+
+ -- Norbert Preining <preining@debian.org>  Fri, 18 May 2018 13:56:28 +0900
+
+maildir-utils (1.0-4) unstable; urgency=medium
+
+  * also make sure that we don't try to install guile related libs
+    on armel
+
+ -- Norbert Preining <preining@debian.org>  Sun, 13 May 2018 13:31:37 +0900
+
+maildir-utils (1.0-3) unstable; urgency=medium
+
+  * don't request non-existing libguile-2.2-dev on armel
+
+ -- Norbert Preining <preining@debian.org>  Tue, 08 May 2018 13:42:47 +0900
+
+maildir-utils (1.0-2) unstable; urgency=medium
+
+  * fix NEWS entry in mu4e welcome screen (Closes: #882341)
+    - install everything into /u/s/d/maildir-utils
+    - adjust MU_DOC_DIR to refer to it
+  * reintroduce maildir-utils-extra with mug
+
+ -- Norbert Preining <preining@debian.org>  Wed, 04 Apr 2018 01:58:11 +0900
+
+maildir-utils (1.0-1) unstable; urgency=medium
+
+  * New upstream version 1.0 (Closes: #894695)
+  * switch to guile-2.2 for building (Closes: #885216)
+  * update patches
+  * switch VCS fields to Salsa
+  * bump standards version, no changes necessary
+  * use guile-2.2 instead of guile-2.0
+
+ -- Norbert Preining <preining@debian.org>  Wed, 04 Apr 2018 00:18:00 +0900
+
+maildir-utils (0.9.18-2) unstable; urgency=medium
+
+  * drop maildir-utils-extra package, mug/msg2pdf cannot be build with
+    webkitgtk4 (Closes: #866645)
+  * bump standards version, no changes necessary
+
+ -- Norbert Preining <preining@debian.org>  Tue, 11 Jul 2017 23:28:20 +0900
+
+maildir-utils (0.9.18-1) unstable; urgency=medium
+
+  * New upstream version 0.9.18 (Closes: #851596)
+  * remove upstream patch
+
+ -- Norbert Preining <preining@debian.org>  Tue, 17 Jan 2017 09:15:09 +0900
+
+maildir-utils (0.9.17-2) unstable; urgency=medium
+
+  * cherrypick upstream fix for broken clearlinks (Closes: #844708)
+
+ -- Norbert Preining <preining@debian.org>  Sun, 20 Nov 2016 07:33:15 +0900
+
+maildir-utils (0.9.17-1) unstable; urgency=medium
+
+  * New upstream version 0.9.17 (Closes: #844375)
+  * update patches
+  * bump standards version, no changes necessary
+  * switch to debhelper compat 9
+
+ -- Norbert Preining <preining@debian.org>  Wed, 16 Nov 2016 14:50:39 +0900
+
+maildir-utils (0.9.16-1) unstable; urgency=medium
+
+  * Imported Upstream version 0.9.16
+  * update installed documentation files
+  * update patches to new release
+  * bump standards version, no changes necessary
+  * update vcs-browser field
+  * update development url in debian/copyright and debian/watch
+
+ -- Norbert Preining <preining@debian.org>  Wed, 02 Mar 2016 16:57:50 +0900
+
+maildir-utils (0.9.12-3) unstable; urgency=medium
+
+  * do not byte compile el files, that is done in postinst for installed
+    flavors (Closes: #797075)
+  * drop build-dep on emacs, and remove configure.ac test for it
+
+ -- Norbert Preining <preining@debian.org>  Sat, 29 Aug 2015 17:48:33 +0900
+
+maildir-utils (0.9.12-2) unstable; urgency=medium
+
+  * new upload to trigger rebuild on powerpc
+
+ -- Norbert Preining <preining@debian.org>  Fri, 26 Jun 2015 14:18:25 +0900
+
+maildir-utils (0.9.12-1) unstable; urgency=medium
+
+  * Imported Upstream version 0.9.12
+
+ -- Norbert Preining <preining@debian.org>  Thu, 07 May 2015 15:36:18 +0900
+
+maildir-utils (0.9.11-1) experimental; urgency=medium
+
+  * Imported Upstream version 0.9.11
+
+ -- Norbert Preining <preining@debian.org>  Tue, 03 Mar 2015 11:54:26 +0900
+
+maildir-utils (0.9.9.6-5) unstable; urgency=medium
+
+  * bump build-dep version for guile-2.0-dev another time, arm build
+    failures (Closes: #764196)
+
+ -- Norbert Preining <preining@debian.org>  Wed, 08 Oct 2014 08:57:14 +0900
+
+maildir-utils (0.9.9.6-4) unstable; urgency=low
+
+  * bump build-dep version for guile-2.0-dev (Closes: #763420)
+  * bump standards version, no changes necessary
+
+ -- Norbert Preining <preining@debian.org>  Mon, 06 Oct 2014 15:42:03 +0900
+
+maildir-utils (0.9.9.6-3) unstable; urgency=medium
+
+  * fix VCS fields
+  * fix mu4e's expectation where msg2pdf is (Closes: #760598)
+
+ -- Norbert Preining <preining@debian.org>  Sat, 06 Sep 2014 06:28:08 +0900
+
+maildir-utils (0.9.9.6-2) unstable; urgency=medium
+
+  * switch to emacs24 as emacs (Closes: #754034)
+  * clean up mu4e packaging according to emacs addon policy
+  * add pmccabe to build-deps for tests
+
+ -- Norbert Preining <preining@debian.org>  Mon, 07 Jul 2014 08:26:56 +0900
+
+maildir-utils (0.9.9.6-1) unstable; urgency=medium
+
+  * Imported Upstream version 0.9.9.6 (Closes: #753174)
+  * adapt/remove patches for new release
+
+ -- Norbert Preining <preining@debian.org>  Mon, 30 Jun 2014 08:16:43 +0900
+
+maildir-utils (0.9.9.5-3) unstable; urgency=medium
+
+  * fix FTBFS due to GTK_STOCK_* missing (Closes: #741777)
+  * bump standards version, no changes necessary
+  * update git web address
+  * activate hardening
+
+ -- Norbert Preining <preining@debian.org>  Tue, 18 Mar 2014 15:55:55 +0900
+
+maildir-utils (0.9.9.5-2) unstable; urgency=low
+
+  * disable mu-guile building on ia64, it does not have guile-2.0
+
+ -- Norbert Preining <preining@debian.org>  Mon, 07 Oct 2013 11:54:26 +0900
+
+maildir-utils (0.9.9.5-1) unstable; urgency=low
+
+  * Imported Upstream version 0.9.9.5
+  * unfuzzify and adapt patches
+  * update build-dep to libgtk3, and libgtkwebkit-3.0-dev
+  * use dh_autoreconf(_clean) in building
+  * add texinfo for info/doc building
+  * bump standards version, no changes necessary
+  * mu-guile building:
+    - add guile-2.0-dev to build-dev
+    - fix mu-guile.texi syntax error for @subtitle
+    - adapt for dealing with the shared library
+
+ -- Norbert Preining <preining@debian.org>  Fri, 05 Jul 2013 14:44:03 +0900
+
+maildir-utils (0.9.9-1) unstable; urgency=low
+
+  * new upstream release
+  * fix formatting of the description (Closes: #688583)
+  * adapt patches
+  * change dependency to binary:Version to allow binNMUs
+
+ -- Norbert Preining <preining@debian.org>  Mon, 07 Jan 2013 12:02:38 +0900
+
+maildir-utils (0.9.8.5-3) unstable; urgency=low
+
+  * restrict mu4e and m-u-e's dependency on maildir-utils to the same
+    version (and including bin-nmus for mu4e)
+
+ -- Norbert Preining <preining@debian.org>  Thu, 23 Aug 2012 09:22:35 +0900
+
+maildir-utils (0.9.8.5-2) unstable; urgency=low
+
+  * cherry pick git commit 4fa0c57d from upstream that fixes encoding
+    problems due to optimizations (Closes: #685472)
+    (thanks to Olaf Meeuwissen for the detailed analysis)
+
+ -- Norbert Preining <preining@debian.org>  Tue, 21 Aug 2012 14:52:44 +0900
+
+maildir-utils (0.9.8.5-1) unstable; urgency=low
+
+  * new upstream release
+  * add the necessary replace for mailutils << 1:2.99.97-3
+  * adapt patches, drop included upstream-xapian-ignore-third-digit
+  * actually build depend on emacs, since the configure script now
+    checks the version of emacs
+
+ -- Norbert Preining <preining@debian.org>  Mon, 02 Jul 2012 08:11:56 +0900
+
+maildir-utils (0.9.8.4-3) unstable; urgency=high
+
+  * conflict with mailutils << 1:2.99.97-3 (same files) (Closes: #678484)
+
+ -- Norbert Preining <preining@debian.org>  Sun, 24 Jun 2012 17:36:00 +0900
+
+maildir-utils (0.9.8.4-2) unstable; urgency=low
+
+  * mention GFDL without invariant sections etc for mu4e.texi etc
+    (Closes: #672596)
+  * fix FTBFS due to xapian version check being to strict (Closes: #672707)
+
+ -- Norbert Preining <preining@debian.org>  Sun, 13 May 2012 11:58:08 +0900
+
+maildir-utils (0.9.8.4-1) unstable; urgency=low
+
+  * new upstream release
+  * unfuzzify and adapt patches
+  * install new toy msg2pdf into maildir-utils-extra
+  * package emacs mu4e into a separate package, and install emacs support
+  * remove quilt from build-deps, and add emacsen-common
+
+ -- Norbert Preining <preining@debian.org>  Thu, 10 May 2012 09:13:30 +0900
+
+maildir-utils (0.9.8.3-1) unstable; urgency=low
+
+  * new upstream release
+    - now builds with gcc 4.7 (Closes: #667269)
+
+ -- Norbert Preining <preining@debian.org>  Tue, 08 May 2012 09:23:42 +0900
+
+maildir-utils (0.9.8.2-1) unstable; urgency=low
+
+  * several new upstream versions
+  * b-d on libgmime-2.6-dev (Closes: #664001, #664006)
+  * bump standards version to 3.9.3, no changes necessary
+  * switch to source format 3.0 (quilt): debian/control, debian/rules
+  * maildir-utils depends on dpkg/install-info (lintian warning)
+  * fix man page lintian warnings
+
+ -- Norbert Preining <preining@debian.org>  Thu, 15 Mar 2012 08:45:56 +0900
+
+maildir-utils (0.9.7-1) unstable; urgency=low
+
+  * new upstream release
+    - don't enforce UTF-8 output, use locale (Closes: #534209)
+    - man pages changed/updated (Closes: #554011)
+  * fix typo in description (Closes: #638987)
+
+ -- Norbert Preining <preining@debian.org>  Sun, 04 Sep 2011 02:33:23 +0900
+
+maildir-utils (0.9.6.99.1-1) unstable; urgency=low
+
+  * actually release 0.9.7-pre
+  * fix typo in description of maildir-utils-gtk (Closes: #636850)
+  * make lintian happy by adding some recommended targets in debian/rules
+  * rename maildir-utils-gtk to maildir-utils-extra as we will probably
+    include the guile interface and some other things there, soon.
+    Add accordingly replaces and conflicts to debian/control, and
+    adapt debian/rules.
+
+ -- Norbert Preining <preining@debian.org>  Tue, 23 Aug 2011 11:03:26 +0900
+
+maildir-utils (0.9.6-2) unstable; urgency=low
+
+  * split of mug into its own package to reduce dependencies
+    (suggestion by Stephan Jänecke)
+
+ -- Norbert Preining <preining@debian.org>  Tue, 26 Jul 2011 21:36:01 +0900
+
+maildir-utils (0.9.6-1) unstable; urgency=low
+
+  * new upstream release
+  * change build dep from libwebkit-dev to libwebkitgtk-dev (Closes: #635419)
+  * bump standards version to 3.9.2, no chances necessary
+
+ -- Norbert Preining <preining@debian.org>  Tue, 26 Jul 2011 08:05:11 +0900
+
+maildir-utils (0.9.5-1) unstable; urgency=low
+
+  * new upstream releases
+  * fix build dependencies (add libgtk2.0-dev, webkit-dev, remove old
+    libgmime, add xdg-utils for xdg-open test)
+  * install mug2 as /usr/bin/mug, adapt the path of the svg in the Makefile.*
+    install mug.svg into /usr/share/pixmaps
+
+ -- Norbert Preining <preining@debian.org>  Tue, 26 Apr 2011 11:09:04 +0900
+
+maildir-utils (0.9.1-1) experimental; urgency=low
+
+  * new upstream releases
+  * disable fix-clearlinks patch, included upstream
+
+ -- Norbert Preining <preining@debian.org>  Tue, 21 Dec 2010 14:59:07 +0900
+
+maildir-utils (0.8-1) experimental; urgency=low
+
+  * upload to experimental to keep sid for squeeze fixes
+  * new upstream release
+  * disable patch fix-msgid-search, included upstream
+
+ -- Norbert Preining <preining@debian.org>  Sat, 13 Nov 2010 22:13:58 +0900
+
+maildir-utils (0.7-2) unstable; urgency=low
+
+  * fix broken search of msgids, patch by Benjamin Mako Hill
+    (closes: #601072) (included upstream)
+  * fix clearing of symlinks, patch by Antonin Kral (upstream issue 28)
+    (closes: #578806)
+  * bump standards version to 3.9.1, no changes necessary
+
+ -- Norbert Preining <preining@debian.org>  Tue, 02 Nov 2010 00:08:03 +0900
+
+maildir-utils (0.7-1) unstable; urgency=low
+
+  * Imported Upstream version 0.7
+  * disable upstream included make-index-silent patch
+
+ -- Norbert Preining <preining@debian.org>  Sun, 28 Feb 2010 19:30:03 +0900
+
+maildir-utils (0.6-2) unstable; urgency=low
+
+  * make mu index -q really silent, patch by Michael Guntsche
+    (Closes: #568668)
+  * bump standards version to 3.8.4, no changes necessary
+  * add a README.source file in debian/
+
+ -- Norbert Preining <preining@debian.org>  Thu, 11 Feb 2010 15:54:55 +0900
+
+maildir-utils (0.6-1) unstable; urgency=low
+
+  * new upstream release
+  * debian packaging:
+    - debian/patches: remove fix-maildir-check from queue, included upstream
+
+ -- Norbert Preining <preining@debian.org>  Mon, 01 Feb 2010 10:06:16 +0900
+
+maildir-utils (0.6~beta1-2) unstable; urgency=low
+
+  * add a patch from Michael Guntsche to fix using ~/Maildir by default
+    (Closes: #566183)
+  * debian packaging changes:
+    - debian/patches: add fix-maildir-check patch and series dir
+    - debian/rules: add quilt stuff
+    - debian/control: add quilt to build-dep
+
+ -- Norbert Preining <preining@debian.org>  Fri, 22 Jan 2010 11:52:11 +0900
+
+maildir-utils (0.6~beta1-1) unstable; urgency=low
+
+  * new upstream release 0.6-beta
+    - that merges the several different programs under one binary mu
+    - no sqlite storage is used anymore
+  * debian packaging changes:
+    - debian/patches
+      . remove all patches
+    - remove debian/HOWTO (upstream document) it is completely outdated
+    - debian/control:
+      . adjust build-dep for gmime-2.4
+      . remove build-dep on quilt and sqlite
+      . adjust the description to new reality
+    - debian/rules:
+      . do not try to install doc files that are not present anymore
+      . disable quilt adaptions
+    - add debian/NEWS that explains that the separate programs are gone
+
+ -- Norbert Preining <preining@debian.org>  Tue, 19 Jan 2010 20:12:43 +0900
+
+maildir-utils (0.4-4) unstable; urgency=low
+
+  [ Stefano Zacchiroli ]
+  * Add new patch xapian-cleanup-transaction to avoid one Xapian
+    transaction per delete message upon cleanup. (Closes: #535162)
+
+  [ Norbert Preining ]
+  * switch to source format 3.0 (quilt) and back, I enjoy being
+    hindered in normal dev activity by funny proposals and new formats
+  * add ${misc:Depends} to the dependencies
+
+ -- Norbert Preining <preining@debian.org>  Sun, 17 Jan 2010 02:58:34 +0900
+
+maildir-utils (0.4-3) unstable; urgency=low
+
+  * start using git: import 0.4-1, 0.4-2, add Vcs-{Git,Web} in debian/control
+  * fix debian/rules file for new quilt usage method
+  * add a patch by Michael Guntsche to fix mu-index -q segfault
+    (Closes: #542367)
+  * install HOWTO file from website via debian for now (Closes: #553179)
+  * use dh_prep instead of dh_clean -k
+  * pump standards version to 3.8.3
+  * fix mis-behaviour of mu-find --format=p or --format=P (Closes: #537234)
+
+ -- Norbert Preining <preining@debian.org>  Fri, 30 Oct 2009 03:39:18 +0900
+
+maildir-utils (0.4-2) unstable; urgency=low
+
+  * fix watch file
+
+ -- Norbert Preining <preining@debian.org>  Sun, 28 Dec 2008 22:57:46 +0100
+
+maildir-utils (0.4-1) unstable; urgency=low
+
+  * First release (Closes: #500194)
+
+ -- Norbert Preining <preining@debian.org>  Thu, 04 Dec 2008 19:13:08 +0100

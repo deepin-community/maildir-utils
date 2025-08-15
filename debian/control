@@ -1,15 +1,45 @@
-Source: template-repository
-Section: unknown
+Source: maildir-utils
+Section: mail
 Priority: optional
-Maintainer: Tsic404 <liuheng@deepin.org>
-Build-Depends: debhelper (>= 11)
-Standards-Version: 4.1.3
-Homepage: https://github.com/deepin-community/template-repository
-#Vcs-Browser: https://salsa.debian.org/debian/deepin-community-template-repository
-#Vcs-Git: https://salsa.debian.org/debian/deepin-community-template-repository.git
+Maintainer: Debian Emacsen team <debian-emacsen@lists.debian.org>
+Uploaders: Martin <debacle@debian.org>, Jeremy Sowden <azazel@debian.org>
+Build-Depends: debhelper-compat (= 13),
+               dh-elpa,
+               guile-3.0-dev,
+               libglib2.0-dev,
+               libgmime-3.0-dev,
+               libreadline-dev,
+               libxapian-dev,
+               locales-all,
+               meson,
+               texinfo
+Standards-Version: 4.7.2
+Rules-Requires-Root: no
+Homepage: https://www.djcbsoftware.nl/code/mu/
+Vcs-Git: https://salsa.debian.org/emacsen-team/maildir-utils.git
+Vcs-Browser: https://salsa.debian.org/emacsen-team/maildir-utils
 
-Package: template-repository
+Package: maildir-utils
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: Set of utilities to deal with Maildirs (upstream name mu)
+ mu is a set of utilities to deal with Maildirs, specifically,
+ indexing and searching.
+  - mu index - recursively scans a collection of email messages, and
+    stores information found in a database.
+  - mu find - searches for messages based on some search criteria.
+  - mu mkmdir - creates a new Maildir.
+ .
+ mu uses libgmime to parse the message, and Xapian to store the message data.
+
+Package: mu4e
+Section: lisp
+Architecture: all
+Depends: emacsen-common,
+         maildir-utils (<< ${source:Version}.1~),
+         maildir-utils (>= ${source:Version}),
+         ${misc:Depends}
+Description: e-mail client for Emacs based on mu (maildir-utils)
+ mu4e (mu-for-emacs) is an e-mail client for GNU-Emacs version 23 and
+ later, built on top of the mu e-mail search engine. mu4e is optimized
+ for fast handling of large amounts of e-mail.

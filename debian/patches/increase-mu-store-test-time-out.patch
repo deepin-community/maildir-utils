@@ -1,0 +1,18 @@
+Description: fix RISC-V test failure
+ Increase time-out to fix test failure on RISC-V.
+Author: Aurelien Jarno <aurel32@debian.org>
+Last-Update: 2024-05-15
+Forwarded: not-needed
+Bug-Debian: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1071192
+
+--- a/lib/tests/test-mu-store.cc
++++ b/lib/tests/test-mu-store.cc
+@@ -514,7 +514,7 @@
+ 	size_t n{};
+ 	while (store.indexer().is_running()) {
+ 		std::this_thread::sleep_for(100ms);
+-		g_assert_cmpuint(n++,<=,25);
++		g_assert_cmpuint(n++,<=,50);
+ 	}
+ 	// there will be a lot of dups....
+ 	g_assert_false(store.empty());

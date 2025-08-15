@@ -1,0 +1,20 @@
+#+TITLE: MU HELP
+#+MAN_CLASS_OPTIONS: :section-id "@SECTION_ID@" :date "@MAN_DATE@"
+
+* NAME
+
+mu-help - show help information about mu commands.
+
+* SYNOPSIS
+
+*mu* [​_COMMON-OPTIONS_​] *help* [​_COMMAND_​]
+
+* DESCRIPTION
+
+*mu help* provides help information about *mu* commands.
+
+#+include: "common-options.inc" :minlevel 1
+
+#+include: "exit-code.inc" :minlevel 1
+
+#+include: "prefooter.inc" :minlevel 1

@@ -1,0 +1,33 @@
+maildir-utils (1.12.3-1) unstable; urgency=medium
+
+  The database schema has changed. After upgrading from versions earlier than
+  1.12.0, `mu init` (followed by `mu index`) must be called.
+
+ -- Jeremy Sowden <azazel@debian.org>  Wed, 10 Apr 2024 20:13:57 +0100
+
+maildir-utils (1.10.7-1) unstable; urgency=medium
+
+  The database schema has changed. After upgrading from versions earlier than
+  1.10.0, `mu init` (followed by `mu index`) must be called.
+
+  A new `--reinit` option was added to `mu init` in 1.10.0 to reinitialize the
+  database with the settings from an earlier version.  See the mu-init(1)
+  man-page for details.
+
+ -- Jeremy Sowden <jeremy@azazel.net>  Wed, 08 Nov 2023 21:43:52 +0000
+
+maildir-utils (1.6.1-1) experimental; urgency=medium
+
+  The database schemata has changed. After upgrading from mu <= 1.6.0 to
+  any version >= 1.6.1, mu init (followed by mu index) must be called.
+
+ -- Norbert Preining <norbert@preining.info>  Sun, 01 Aug 2021 10:02:39 +0900
+
+maildir-utils (0.6~beta1-1) unstable; urgency=low
+
+  From this release onward maildir utils does not ship separate programs,
+  but only one binary mu that allows for different commands.  So
+  "mu-index" is not "mu index". Please see that man page of mu for
+  details.
+
+ -- Norbert Preining <preining@debian.org>  Thu, 21 Jan 2010 14:39:49 +0900

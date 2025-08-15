@@ -1,0 +1,55 @@
+#+TITLE: MU VIEW
+#+MAN_CLASS_OPTIONS: :section-id "@SECTION_ID@" :date "@MAN_DATE@"
+#+include: macros.inc
+
+* NAME
+
+mu-view - display an e-mail message file
+
+* SYNOPSIS
+
+*mu* [​_COMMON OPTIONS_​] *view* [​_OPTIONS_​] [​_FILE_...]
+
+* DESCRIPTION
+
+*mu view* is the *mu* command for displaying e-mail message files. It works on
+message files and does _not_ require the message to be indexed in the database.
+
+The command shows some common headers (From:, To:, Cc:, Bcc:, Subject: and
+Date:), the list of attachments and either the plain-text or html body of the
+message (if any), or its s-expression representation.
+
+If no message file is provided, the command reads the message from
+standard-input.
+
+* VIEW OPTIONS
+
+** -o, --format _format_
+Use the given output format, one of:
+
+- *plain*: use the plain-text body; this is the default,
+- *html*: use the HTML body,
+- *sexp*: show the S-expression representation of the message.
+
+** --summary-len _number_
+Instead of displaying the full message, output a summary based upon the first
+_number_ lines of the message.
+
+** --terminate
+Terminate messages with \\​f (=form-feed=) characters when displaying them. This is
+useful when you want to further process them.
+
+** --decrypt
+Attempt to decrypt encrypted message bodies. This is only possible if *mu*
+was built with crypto-support.
+
+** --auto-retrieve
+Attempt to retrieve crypto-keys automatically from the network, when needed.
+
+#+include: "common-options.inc" :minlevel 1
+
+#+include: "prefooter.inc" :minlevel 1
+
+* SEE ALSO
+
+{{{man-link(mu,1)}}}
