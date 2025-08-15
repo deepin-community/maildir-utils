@@ -1,0 +1,23 @@
+Author: Jeremy Sowden <jeremy@azazel.net>
+Last-Update: 2025-03-10
+Forwarded: https://github.com/djcb/mu/pull/2828
+Description: escape a couple of back-slashes in man-page
+ Otherwise:
+ .
+   (with the \040 specifying a space in the regular expression, and and extra '\' to escape it)
+ .
+ is rendered as:
+ .
+   (with the $ 40 specifying a space in the regular expression, and and extra `$´ to escape it)
+
+--- a/man/mu-query.7.org
++++ b/man/mu-query.7.org
+@@ -165,7 +165,7 @@
+ #+begin_example
+ mu find 'subject:/hello\\040world/'
+ #+end_example
+-(with the \040 specifying a space in the regular expression, and and extra `\'
++(with the \\040 specifying a space in the regular expression, and and extra `\\'
+ to escape it). In many cases,
+ #+begin_example
+ mu find 'subject:/hello.world/'

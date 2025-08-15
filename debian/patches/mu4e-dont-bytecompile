@@ -1,0 +1,22 @@
+Description: prevent byte-compilation of mu4e at build-time
+Author: Norbert Preining <preining@debian.org>
+Author: Jeremy Sowden <azazel@debian.org>
+Last-Update: 2024-05-03
+Forwarded: not-needed
+
+--- a/mu4e/meson.build
++++ b/mu4e/meson.build
+@@ -98,11 +98,11 @@
+   # seems meson ignores 'install_mode' for copy (1.5.1, 1.6.1)
+ 
+   custom_target(src.underscorify() + '_el',
+-                build_by_default: true,
++                build_by_default: false,
+                 input: src,
+                 output: target_name,
+                 install_dir: mu4e_lispdir,
+-                install: true,
++                install: false,
+                 # rebuild all if any changed.
+                 depend_files: mu4e_srcs,
+                 command: [emacs,

@@ -1,4 +1,42 @@
 #!/usr/bin/make -f
+# -*- makefile -*-
+
+ifeq (,$(filter terse,$(DEB_BUILD_OPTIONS)))
+export DH_VERBOSE = 1
+endif
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all abi=+time64
+
+include /usr/share/dpkg/architecture.mk
+include /usr/share/dpkg/pkg-info.mk
+
+#
+# Cf. #1068030.
+#
+ifeq (armel,$(DEB_HOST_ARCH))
+export DEB_LDFLAGS_MAINT_APPEND = -Wl,--no-as-needed -latomic -Wl,--as-needed
+endif
+
+BUILDDIR = obj-$(DEB_HOST_GNU_TYPE)
+TBL_MANPAGES = mu-cfind.1 mu-find.1 mu-index.1 mu-move.1 mu-query.7 mu-server.1
+
+ELPA_NAME=mu4e
+export ELPA_NAME
 
 %:
-	dh $@
+	dh $@ --with elpa --buildsystem=meson
+
+execute_after_dh_auto_build:
+	#
+	# ox-man transcodes some mark-up such as `~...~` using the font
+	# escape-sequence `\fC...\fP`.  However, the font C does not exist.
+	# Insert `.ftr` requests to translate it to font B, which _does_ exist.
+	#
+	for m in $(BUILDDIR)/man/*.[0-9]; do sed -i '1 i .ftr C B' $$m; done
+	#
+	# Insert preprocessor string into man-pages containing tables telling groff to
+	# run tbl (_vide_ https://lists.debian.org/debian-devel/2023/08/msg00220.html).
+	#
+	for m in $(TBL_MANPAGES); do sed -i '1 i '"'"'\\" t' $(BUILDDIR)/man/$$m; done
+
+override_dh_compress:
+	dh_compress --exclude=NEWS.org

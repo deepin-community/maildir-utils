@@ -1,0 +1,61 @@
+Author: Jeremy Sowden <jeremy@azazel.net>
+Last-Update: 2025-03-10
+Forwarded: https://github.com/djcb/mu/pull/2828
+Description: fix some single-quoted strings in man-page
+ The upstream commit 721aadc140f2 ("man: change quoting style") replaced
+ single-quoted strings of the form:
+ .
+   'lorem ipsum'
+ .
+ with:
+ .
+   `lorem ipsum'
+ .
+ to prevent the possibility of single quotes appearing at the beginning of
+ lines, because these will be misinterpreted by troff.  However, changes to the
+ man-page sources in 1.12.9 reintroduced some of these, including one which does
+ appear at the beginning of a line in mu-query(7):
+ .
+   '"', '*', '(' and ')'. The details are shell-specific. In case of doubt, the
+ .
+ which results in the following warning:
+ .
+   troff:<standard input>:25: warning: macro '"',' not defined
+ .
+ and the omission of that line from the rendered paragraph:
+ .
+   NOTE:  if  you  use  queries on the command-line (say, for mu find), you
+   need to quote any characters that would otherwise be interpreted by  the
+   shell, such as *--analyze option can be useful.
+ .
+ Use back-ticks for the opening quotes.
+
+--- a/man/mu-query.7.org
++++ b/man/mu-query.7.org
+@@ -23,7 +23,7 @@
+ 
+ *NOTE:* if you use queries on the command-line (say, for *mu find*), you need to
+ quote any characters that would otherwise be interpreted by the shell, such as
+-'"', '*', '(' and ')'. The details are shell-specific. In case of doubt, the
++`"', `*', `(' and `)'. The details are shell-specific. In case of doubt, the
+ *--analyze* option can be useful.
+ 
+ * TERMS
+@@ -136,7 +136,7 @@
+ #+end_example
+ 
+ Quoting the "hello*" is recommended; some shells (but not all) would otherwise
+-expand the '*' to all files in the current directory.
++expand the `*' to all files in the current directory.
+ 
+ * REGULAR EXPRESSIONS
+ 
+@@ -165,7 +165,7 @@
+ #+begin_example
+ mu find 'subject:/hello\\040world/'
+ #+end_example
+-(with the \040 specifying a space in the regular expression, and and extra '\'
++(with the \040 specifying a space in the regular expression, and and extra `\'
+ to escape it). In many cases,
+ #+begin_example
+ mu find 'subject:/hello.world/'

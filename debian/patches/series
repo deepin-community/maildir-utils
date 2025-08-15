@@ -1,0 +1,5 @@
+mu4e-dont-bytecompile
+adjust-mu-docdir
+increase-mu-store-test-time-out.patch
+fix-single-quotes-in-man-pages.patch
+escape-man-page-back-slashes.patch

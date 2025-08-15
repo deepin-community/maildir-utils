@@ -1,0 +1,6 @@
+usr/bin
+usr/lib/${DEB_HOST_MULTIARCH}/guile/*/extensions/libguile-mu.so
+usr/share/doc
+usr/share/guile
+usr/share/man
+usr/share/mu
